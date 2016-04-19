@@ -5,7 +5,7 @@ var fs = require("fs");
 
 function renderHomePage(request, response){
 	response.writeHead(200,{"content-type": "text/html"});
-	homePageHtml = fs.readFileSync("homePageHtml.html");
+	var homePageHtml = fs.readFileSync("homePageHtml.html");
 	response.write(homePageHtml);
 	response.end();
 }
@@ -22,7 +22,11 @@ var server = http.createServer(function(request, response){
 	// response.writeHead(200, {"content-type": "text/html"});
 	if(request.url == "/"){
 		renderHomePage(request, response);
-	}else{
+	}else if(request.url == '/err404.jpg'){
+	    var img = fs.readFileSync('err404.jpg');
+    	response.writeHead(200, {'Content-Type': 'image/png' });
+     	response.end(img, 'binary');
+     }else{
 		renderErrorPage(request, response);
 	}
 	// response.write("<h1>Hello, World</h1>");
